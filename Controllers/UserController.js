@@ -1,8 +1,8 @@
-const User   = require("../Models/UserModel");
+const User = require("../Models/UserModel");
 const bcrypt = require("bcrypt");
 
 // ── ADMIN CREDENTIALS (hardcoded, matches frontend) ───────────────
-const ADMIN_EMAIL    = "admin@ford.edu.in";
+const ADMIN_EMAIL = "admin@ford.edu.in";
 const ADMIN_PASSWORD = "Admin@123";
 
 // ── LOGIN ─────────────────────────────────────────────────────────
@@ -32,12 +32,12 @@ const loginUser = async (req, res) => {
     res.status(200).json({
       message: "Login successful",
       data: {
-        _id:           user._id,
-        name:          user.name,
-        role:          user.role,
-        dept:          user.dept,
-        prog:          user.prog,
-        year:          user.year,
+        _id: user._id,
+        name: user.name,
+        role: user.role,
+        dept: user.dept,
+        prog: user.prog,
+        year: user.year,
         personalEmail: user.personalEmail,
         officialEmail: user.officialEmail,
       },
@@ -63,7 +63,7 @@ const createUser = async (req, res) => {
     }
 
     // Hash password
-    const salt   = await bcrypt.genSalt(10);
+    const salt = await bcrypt.genSalt(10);
     const hashed = await bcrypt.hash(password, salt);
 
     const newUser = new User({
@@ -109,7 +109,7 @@ const updateUser = async (req, res) => {
 
     // Only update password if a new one is provided (min 6 chars)
     if (password && password.length >= 6) {
-      const salt   = await bcrypt.genSalt(10);
+      const salt = await bcrypt.genSalt(10);
       updateData.password = await bcrypt.hash(password, salt);
     }
 
@@ -145,7 +145,7 @@ const resetPassword = async (req, res) => {
     const user = await User.findOne({ officialEmail: email });
     if (!user) return res.status(404).json({ message: "User not found" });
 
-    const salt   = await bcrypt.genSalt(10);
+    const salt = await bcrypt.genSalt(10);
     user.password = await bcrypt.hash(newPassword, salt);
     await user.save();
 
