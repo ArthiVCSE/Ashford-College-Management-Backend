@@ -50,7 +50,7 @@ const loginUser = async (req, res) => {
 // ── CREATE USER (Admin adds Student / Faculty) ────────────────────
 const createUser = async (req, res) => {
   try {
-    const { name, role, dept, prog, year, personalEmail, officialEmail, password, profileImg, designation, description } = req.body;
+    const { name, role, dept, prog, year, personalEmail, officialEmail, password } = req.body;
 
     if (!name || !role || !officialEmail || !password) {
       return res.status(400).json({ message: "Name, Role, Official Email and Password are required." });
@@ -68,7 +68,6 @@ const createUser = async (req, res) => {
 
     const newUser = new User({
       name, role, dept, prog, year, personalEmail, officialEmail, password: hashed,
-      profileImg, designation, description,
     });
     const saved = await newUser.save();
 
@@ -105,8 +104,8 @@ const getUserById = async (req, res) => {
 // ── UPDATE USER (Admin edits) ─────────────────────────────────────
 const updateUser = async (req, res) => {
   try {
-    const { name, dept, officialEmail, password, profileImg, designation, description } = req.body;
-    const updateData = { name, dept, officialEmail, profileImg, designation, description };
+    const { name, dept, officialEmail, password } = req.body;
+    const updateData = { name, dept, officialEmail };
 
     // Only update password if a new one is provided (min 6 chars)
     if (password && password.length >= 6) {
