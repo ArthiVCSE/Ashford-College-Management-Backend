@@ -50,7 +50,7 @@ const loginUser = async (req, res) => {
 // ── CREATE USER (Admin adds Student / Faculty) ────────────────────
 const createUser = async (req, res) => {
   try {
-    const { name, role, dept, prog, year, personalEmail, officialEmail, password } = req.body;
+    const { name, role, dept,profileImg, prog, year, personalEmail, officialEmail, password } = req.body;
 
     if (!name || !role || !officialEmail || !password) {
       return res.status(400).json({ message: "Name, Role, Official Email and Password are required." });
@@ -67,7 +67,7 @@ const createUser = async (req, res) => {
     const hashed = await bcrypt.hash(password, salt);
 
     const newUser = new User({
-      name, role, dept, prog, year, personalEmail, officialEmail, password: hashed,
+      name, role, dept, profileImg, prog, year, personalEmail, officialEmail, password: hashed,
     });
     const saved = await newUser.save();
 
